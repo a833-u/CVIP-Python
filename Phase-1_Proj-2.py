@@ -1,13 +1,40 @@
-import random
-def generate_password(length=12, character_types="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"):
-  password = ""
-  for i in range(length):
-    password += random.choice(character_types)
-  return password
-def main():
-  password_length = int(input("Enter the desired password length: "))
-  character_types = input("Enter the desired character types (e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()): ")
-  password = generate_password(password_length, character_types)
-  print("Your generated password is:", password)
-if __name__ == "__main__":
-  main()
+from tkinter import *
+from random import randint
+
+root = Tk()
+root.title("Ansh's Strong Password Generator")
+root.geometry("500x300")
+
+my_password = chr(randint(33,126))
+
+def new_rand():
+    pw_entry.delete(0, END)
+    pw_length = int(my_entry.get())
+    my_password = ''
+    for x in range(pw_length):
+        my_password += chr(randint(33, 126))
+    pw_entry.insert(0, my_password)
+
+def clipper():
+    root.clipboard_clear()
+    root.clipboard_append(pw_entry.get())
+
+lf = LabelFrame(root, text = "How Many Characters ?")
+lf.pack(pady=20)
+
+my_entry = Entry(lf, font=("Helvetia", 24))
+my_entry.pack(pady=20, padx=20)
+
+pw_entry = Entry(root, text='', font=("Helvetia", 24))
+pw_entry.pack(pady=20)
+
+my_frame = Frame(root)
+my_frame.pack(pady=20)
+
+my_button = Button(my_frame, text="Generate Strong Password", command = new_rand)
+my_button.grid(row= 0, column=0, padx=10)
+
+clip_button = Button(my_frame, text="Copy to Clipboard",command=clipper)
+clip_button.grid(row=0, column=1, padx=10)
+
+root.mainloop()
